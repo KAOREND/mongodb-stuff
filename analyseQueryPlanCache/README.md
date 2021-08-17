@@ -11,7 +11,7 @@ The intent of this script is to be used for index clean ups and optimisations.
 Start a mongo shell with the script.
 
 ```
-mongo analysePlanCache.js
+mongosh --shell analysePlanCache.js
 ```
 
 And then call analyseQueryPlans for the collection for which you want to analyse the Index Usage.
