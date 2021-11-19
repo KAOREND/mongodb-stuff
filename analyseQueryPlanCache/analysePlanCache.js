@@ -26,7 +26,7 @@ function analyseQueryPlans(collection) {
   }
 
 
-  if (qc.listQueryShapes) {
+  if (qc.listQueryShapes && db.version() < "4.2") {
     //MongoDB Version before 4.2
     qc.listQueryShapes().forEach(function (query) {
       plan = qc.getPlansByQuery(query.query, query.projection, query.sort);
@@ -83,3 +83,23 @@ function getUsedIndexes(plan, indexes) {
     }
   }
 }
+
+
+function analyzeAll() {
+  db = db.getSiblingDB("admin");
+  dbs = db.runCommand({ "listDatabases": 1 }).databases;
+  dbs.forEach(function(database) {
+        db = db.getSiblingDB(database.name);
+        cols = db.getCollectionNames();
+        cols.forEach(function(col) {
+           try{
+            collection = db.getCollection(col);
+            print("collection:  "+collection.getFullName());
+            printjson(analyseQueryPlans(collection));        
+           } catch(e) {
+             print(e);
+           }
+        });
+    });
+}
+analyzeAll();

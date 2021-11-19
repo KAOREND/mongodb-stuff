@@ -11,20 +11,13 @@ The intent of this script is to be used for index clean ups and optimisations.
 Start a mongo shell with the script.
 
 ```
-mongosh --shell analysePlanCache.js
-```
-
-And then call analyseQueryPlans for the collection for which you want to analyse the Index Usage.
-
-```javascript
- analyseQueryPlans(db.myCollectionName).
+mongosh analysePlanCache.js  > analysis.json
 ```
 
 
 The result will look like this:
 
 ```javascript
-analyseQueryPlans(db.test)
 {
 	"i_1" : {
 		"index" : "i_1",
